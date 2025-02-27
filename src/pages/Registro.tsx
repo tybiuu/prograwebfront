@@ -23,14 +23,13 @@ const Registro = () => {
         setMensaje(data.msg);
 
         if (data.msg === "Registro exitoso") {
-            AddLogRegistro();
+            AddLogRegistro(data.data.id);
             setTimeout(() => navigate("/"), 2000);
             
         }
     };
     
-    const AddLogRegistro = async () => {
-        const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
+    const AddLogRegistro = async (userId : number) => {
         const url = `${URL_BACKEND}/access-logs/${userId}`;
         const resp = await fetch(url, {
             method : "POST",
