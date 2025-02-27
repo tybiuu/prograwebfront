@@ -8,7 +8,7 @@ interface DeleteExpenseModalProps {
 
 const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ expenseId, closeModal, refreshExpenses }) => {
   const [error, setError] = useState<string>("");
-
+  console.log("expense_id recibido", expenseId)
   const handleDelete = async () => {
     if (!expenseId) return;
 
