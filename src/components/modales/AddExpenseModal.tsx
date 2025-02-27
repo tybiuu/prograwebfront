@@ -37,7 +37,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshEx
     };
 
     try {
-      const response = await fetch(URL_BACKEND+`/expenses/${userId}`, {
+      const response = await fetch(`${URL_BACKEND}/expenses/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newExpense),
@@ -59,7 +59,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ closeModal, refreshEx
     }
   };
   const AddLogAgregarExpense = async () => {
-    const url = URL_BACKEND+`/access-logs/${userId}`;
+    const url = `${URL_BACKEND}/access-logs/${userId}`;
     const resp = await fetch(url, {
         method : "POST",
         body : JSON.stringify({

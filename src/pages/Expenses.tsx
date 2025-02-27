@@ -16,10 +16,11 @@ const Expenses = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
     const [showFilterModal, setShowFilterModal] = useState(false);
+    const [/*filteredExpenses*/, setFilteredExpenses] = useState<Expense[]>([]);
 
     const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
     const URL_BACKEND = import.meta.env.VITE_URL_BACKEND 
-
+    
     const httpObtenerExpenses = async () => {
         if (!userId) return;
 
@@ -30,6 +31,7 @@ const Expenses = () => {
 
             if (data.msg === "") {
                 setExpenses(data.expenses);
+                setFilteredExpenses(data.expenses); // Se inicializa el estado filtrado con todos los gastos
                 console.log("📌 Gastos cargados:", data.expenses);
             } else {
                 console.error("⚠️ Error al obtener gastos:", data.msg);
@@ -38,7 +40,31 @@ const Expenses = () => {
             console.error("❌ Error al conectar con el servidor:", error);
         }
     };
+    const httpFiltrarExpenses = async (filters: { category?: string; date?: string; minAmount?: number; maxAmount?: number }) => {
+        if (!userId) return;
+        
+        const params = new URLSearchParams();
+        if (filters.category) params.append("category", filters.category);
+        if (filters.date) params.append("date", filters.date);
+        if (filters.minAmount !== undefined) params.append("minAmount", filters.minAmount.toString());
+        if (filters.maxAmount !== undefined) params.append("maxAmount", filters.maxAmount.toString());
 
+        const url = `${URL_BACKEND}/expenses/filter/${userId}?${params.toString()}`;
+
+        try {
+            const resp = await fetch(url);
+            const data = await resp.json();
+
+            if (data.msg === "") {
+                setFilteredExpenses(data.expenses);
+                console.log("📌 Gastos filtrados:", data.expenses);
+            } else {
+                console.error("⚠️ Error al filtrar gastos:", data.msg);
+            }
+        } catch (error) {
+            console.error("❌ Error al conectar con el servidor:", error);
+        }
+    };
 
     useEffect(() => {
         httpObtenerExpenses();
@@ -99,10 +125,9 @@ const Expenses = () => {
 
                     {showFilterModal && (
                         <ModalFiltrarGastos
-                            showModal={showFilterModal}
-                            closeModal={() => setShowFilterModal(false)}
-                            applyFilters={httpObtenerExpenses}
-                        />
+                        showModal={showFilterModal} 
+                        closeModal={() => setShowFilterModal(false)}
+                        applyFilters={httpFiltrarExpenses}  />
                     )}
                 </div>
             </div>

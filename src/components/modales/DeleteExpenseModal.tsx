@@ -36,11 +36,11 @@ const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ expenseId, clos
   
     const AddLogEliminar = async () => {
       const userId = JSON.parse(sessionStorage.getItem("usuario") || "{}").usuarioId || null;
-        const url = URL_BACKEND+`/access-logs/${userId}`;
+        const url = `${URL_BACKEND}/access-logs/${userId}`;
         const resp = await fetch(url, {
             method : "POST",
             body : JSON.stringify({
-                action : "Eliminar",
+                action : "Borrar",
                 firstaccess : false
             }),
             headers : {
