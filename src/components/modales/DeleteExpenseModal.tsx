@@ -13,7 +13,7 @@ const DeleteExpenseModal: React.FC<DeleteExpenseModalProps> = ({ expenseId, clos
     if (!expenseId) return;
 
     try {
-      const response = await fetch(URL_BACKEND`/expenses/${expenseId}`, {
+      const response = await fetch(URL_BACKEND+`/expenses/${expenseId}`, {
         method: "DELETE",
       });
 
