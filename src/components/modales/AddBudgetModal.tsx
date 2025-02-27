@@ -10,8 +10,8 @@ const API_BASE_URL = URL_BACKEND+"/budgets"; // 🔹 Backend en puerto 5000
 
 const categories = [
   { id: 1, name: "Servicios" },
-  { id: 2, name: "Alimentación" },
-  { id: 3, name: "Ocio" },
+  { id: 3, name: "Alimentación" },
+  { id: 2, name: "Ocio" },
 ];
 
 const AddBudgetModal: React.FC<AddBudgetModalProps> = ({ closeModal, onBudgetAdded, userId }) => {
